@@ -1,0 +1,6 @@
+{
+  "name": "REDHOST Studio",
+  "description": "REDHOST is a digital technology and creative studio building modern websites, apps, AI systems, and content for next-gen brands.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
