@@ -29,85 +29,43 @@ export const ProcessSection: React.FC = () => {
   ];
 
   return (
-    <section id="process" className="w-full py-20 lg:py-28 px-6 lg:px-12 bg-[radial-gradient(circle_at_top,_rgba(143,185,255,0.14),transparent_30%),linear-gradient(180deg,#f6f8ff_0%,#f9fbff_100%)]">
-      <div className="max-w-7xl mx-auto space-y-16">
-        {/* Section Header */}
+    <section id="process" className="w-full bg-[#f7efef] px-6 py-20 text-[#191919] lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-7xl space-y-12">
         <div className="space-y-4 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#dff9ff] text-[#006973] text-xs font-semibold tracking-wider uppercase ring-1 ring-[#bfeef6] shadow-sm">
-            METHODOLOGY
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-700 text-[11px] font-semibold tracking-[0.18em] uppercase border border-red-200">
+            Our Working Process
           </div>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111827] tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.05em] text-[#191919]">
             A simple process. A clear outcome.
           </h2>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            We strip out bloated agency layers and replace them with rapid, linear execution.
-          </p>
         </div>
 
-        {/* 4-Step Horizontal Sequence */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
           {PROCESS_STEPS.map((step, idx) => {
             const isSelected = selectedStep === idx;
             return (
               <div
                 key={step.step}
                 onClick={() => setSelectedStep(idx)}
-                className={`rounded-3xl bg-white p-8 shadow-xs border transition-all duration-300 flex flex-col justify-between space-y-6 relative cursor-pointer ${
+                className={`rounded-[1.5rem] border p-5 text-left transition-all duration-300 ${
                   isSelected
-                    ? 'border-[#5d3bce] shadow-lg ring-2 ring-[#5d3bce]/15 -translate-y-1'
-                    : 'border-slate-200/80 hover:border-slate-300 hover:shadow-md'
+                    ? 'border-red-300 bg-[#fff3f2] shadow-[0_18px_45px_-32px_rgba(180,35,35,0.3)]'
+                    : 'border-[#e7e7e4] bg-white hover:border-red-200 hover:shadow-[0_18px_45px_-32px_rgba(180,35,35,0.18)]'
                 }`}
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span
-                      style={{ color: step.color }}
-                      className="font-display text-3xl font-extrabold tabular-nums"
-                    >
-                      {step.step}
-                    </span>
-                    <span
-                      className={`px-2.5 py-0.5 rounded text-[11px] font-mono font-semibold ${
-                        idx === 0
-                          ? 'bg-[#e7deff] text-[#5d3bce]'
-                          : idx === 1
-                          ? 'bg-[#90f1ff] text-[#006973]'
-                          : idx === 2
-                          ? 'bg-[#f1f3ff] text-slate-700'
-                          : 'bg-[#cbbeff]/60 text-[#5d3bce]'
-                      }`}
-                    >
-                      {step.phase}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display text-xl font-bold text-[#171c26]">
-                    {step.title}
-                  </h3>
-
-                  <p className="text-xs text-[#484554] leading-relaxed">
-                    {step.description}
-                  </p>
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="font-display text-4xl font-black tracking-[-0.06em] text-red-600">{step.step}</span>
+                  <span className="rounded-full border border-red-200 bg-red-50 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-red-700">
+                    {step.phase}
+                  </span>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 space-y-1">
-                  <div className="text-[11px] font-bold text-[#171c26]">
-                    Deliverable:
-                  </div>
-                  <div
-                    style={{ color: step.color }}
-                    className="text-xs font-semibold leading-snug"
-                  >
-                    {step.deliverable}
-                  </div>
-                </div>
+                <h3 className="mb-2 font-display text-xl font-bold text-[#191919]">{step.title}</h3>
+                <p className="text-sm leading-relaxed text-[#737373]">{step.description}</p>
               </div>
             );
           })}
         </div>
-
-        {/* Selected Step Detailed Deep-Dive Card */}
-        
       </div>
     </section>
   );

@@ -29,7 +29,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   const [budget, setBudget] = useState(initialBudget);
   const [details, setDetails] = useState(initialDetails);
 
-  // Sync when initial values change (e.g. from Project Estimator)
   useEffect(() => {
     if (initialService) setService(initialService);
     if (initialBudget) setBudget(initialBudget);
@@ -65,9 +64,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   };
 
   return (
-    <section id="contact" className="w-full py-20 lg:py-28 px-6 lg:px-12 bg-[#f1f3ff] border-t border-slate-200/80">
+    <section id="contact" className="w-full py-20 lg:py-28 px-6 lg:px-12 bg-[#f7f3f4] border-t border-slate-200">
       <div className="max-w-7xl mx-auto space-y-16">
-        {/* Section Intro */}
         <div className="space-y-3 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e7deff] text-[#5d3bce] text-xs font-semibold tracking-wider uppercase">
             INITIATE CONTACT
@@ -80,9 +78,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
           </p>
         </div>
 
-        {/* 2-Column Contact Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Left Column: Direct Info (5 cols) */}
           <div className="lg:col-span-5 space-y-8">
             <div className="p-8 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-8">
               <h3 className="font-display text-2xl font-bold text-[#171c26]">
@@ -90,7 +86,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               </h3>
 
               <div className="space-y-6">
-                {/* Email */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#e7deff] flex items-center justify-center text-[#5d3bce] shrink-0">
                     <Mail className="w-5 h-5" />
@@ -108,7 +103,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Phone */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#90f1ff] flex items-center justify-center text-[#006973] shrink-0">
                     <Phone className="w-5 h-5" />
@@ -126,7 +120,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Locations */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#f1f3ff] flex items-center justify-center text-slate-800 shrink-0">
                     <MapPin className="w-5 h-5" />
@@ -142,7 +135,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 </div>
               </div>
 
-              {/* Social Links */}
               <div className="pt-6 border-t border-slate-100">
                 <div className="text-xs uppercase tracking-wider text-[#484554] mb-3 font-semibold">
                   Network
@@ -160,11 +152,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 </div>
               </div>
             </div>
-
-            
           </div>
 
-          {/* Right Column: Intake Form (7 cols) */}
           <div className="lg:col-span-7">
             <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/80 shadow-xl relative">
               {status === 'success' ? (
@@ -195,7 +184,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {/* Name Input */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#171c26]">
                         Your Name *
@@ -210,7 +198,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       />
                     </div>
 
-                    {/* Email Input */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#171c26]">
                         Work Email *
@@ -227,7 +214,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {/* Phone Input */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#171c26]">
                         Phone Number
@@ -241,7 +227,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       />
                     </div>
 
-                    {/* Company Input */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-[#171c26]">
                         Company / Brand
@@ -256,7 +241,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     </div>
                   </div>
 
-                  {/* Service Needed Dropdown */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#171c26]">
                       Service Needed
@@ -276,7 +260,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     </select>
                   </div>
 
-                  {/* Project Details Textarea */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#171c26]">
                       Project Details
@@ -290,7 +273,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     ></textarea>
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={status === 'submitting'}

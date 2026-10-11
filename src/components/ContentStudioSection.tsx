@@ -62,7 +62,7 @@ export const ContentStudioSection: React.FC = () => {
                   R
                 </span>
                 <div>
-                  <div className="text-xs font-bold text-[#171c26]">@redhost.studio</div>
+                  <div className="text-xs font-bold text-[#171c26]">@redhost.ai</div>
                   <div className="text-[10px] text-slate-500">Instagram Trending</div>
                 </div>
               </div>
@@ -108,7 +108,7 @@ export const ContentStudioSection: React.FC = () => {
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="text-slate-600 font-medium">Monthly Ad Spend:</span>
                   <span className="font-mono font-bold text-[#171c26]">
-                    ${(adSpend / 1000).toFixed(0)}k
+                    ₹{(adSpend / 1000).toFixed(0)}k
                   </span>
                 </div>
                 <input
@@ -123,7 +123,7 @@ export const ContentStudioSection: React.FC = () => {
                 <div className="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100">
                   <span className="text-slate-500">Projected Pipeline:</span>
                   <span className="font-mono font-extrabold text-[#006973] tabular-nums">
-                    ${(estimatedRevenue / 1000).toFixed(1)}k
+                    ₹{(estimatedRevenue / 1000).toFixed(1)}k
                   </span>
                 </div>
               </div>
@@ -132,8 +132,7 @@ export const ContentStudioSection: React.FC = () => {
                 <div className="w-6 h-6 rounded-full bg-[#006973] flex items-center justify-center text-white font-bold text-[10px]">
                   C
                 </div>
-                <span className="font-bold text-[#171c26]">Creator Verified:</span>
-                <span className="text-slate-500 font-mono text-[11px]">@techscale</span>
+                <span className="font-bold text-[#171c26]">Creator Verified</span>
               </div>
             </div>
           </div>

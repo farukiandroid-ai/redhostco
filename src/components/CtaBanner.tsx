@@ -30,8 +30,6 @@ export const CtaBanner: React.FC = () => {
                 <span>Start a Project</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
-
-              
           </div>
       </div>
     </section>

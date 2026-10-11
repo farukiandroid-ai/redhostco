@@ -60,9 +60,9 @@ export const CapabilitiesBar: React.FC<CapabilitiesBarProps> = ({ onSelectCatego
   ];
 
   return (
-    <section className="w-full py-12 px-6 lg:px-12 bg-white border-y border-slate-200/80">
+    <section className="w-full py-12 px-6 lg:px-12 bg-[#0e1015] border-y border-red-500/10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {capabilities.map((item, idx) => {
             const Icon = item.icon;
             const isHovered = activeCard === idx;
@@ -79,10 +79,10 @@ export const CapabilitiesBar: React.FC<CapabilitiesBarProps> = ({ onSelectCatego
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className={`group p-6 rounded-2xl bg-[#f1f3ff] hover:bg-[#e9edfc] transition-all duration-300 border cursor-pointer flex flex-col justify-between space-y-4 relative ${
+                className={`group p-6 rounded-2xl bg-[#12161d] hover:bg-[#181e28] transition-all duration-300 border cursor-pointer flex flex-col justify-between space-y-4 relative ${
                   isHovered
-                    ? 'border-[#7657e8]/40 shadow-md -translate-y-1'
-                    : 'border-transparent shadow-xs'
+                    ? 'border-red-400/40 shadow-md -translate-y-1'
+                    : 'border-red-500/10 shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -91,34 +91,33 @@ export const CapabilitiesBar: React.FC<CapabilitiesBarProps> = ({ onSelectCatego
                   >
                     <Icon className={`w-5 h-5 ${item.textPill}`} />
                   </span>
-                  <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-[#5d3bce] transition-colors">
+                  <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-red-400 transition-colors">
                     {item.num}
                   </span>
                 </div>
 
                 <div>
-                  <div className="font-display text-lg font-bold text-[#171c26] tracking-tight">
+                  <div className="font-display text-lg font-bold text-white tracking-tight">
                     {item.title}
                   </div>
                   <div className={`text-xs font-semibold mt-0.5 mb-2 ${item.textPill}`}>
                     {item.subtitle}
                   </div>
-                  <p className="text-xs text-[#484554] leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     {item.desc}
                   </p>
 
-                  {/* Dynamic bullet preview */}
-                  <div className="mt-3 pt-3 border-t border-slate-200/60 space-y-1">
+                  <div className="mt-3 pt-3 border-t border-slate-700/80 space-y-1">
                     {item.highlights.map((h, i) => (
-                      <div key={i} className="flex items-center gap-1.5 text-[11px] text-slate-700">
-                        <Check className="w-3 h-3 text-[#5d3bce] shrink-0" />
+                      <div key={i} className="flex items-center gap-1.5 text-[11px] text-slate-200">
+                        <Check className="w-3 h-3 text-red-400 shrink-0" />
                         <span className="truncate">{h}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-1 flex items-center justify-between text-[11px] font-semibold text-[#5d3bce] group-hover:translate-x-0.5 transition-transform">
+                <div className="pt-1 flex items-center justify-between text-[11px] font-semibold text-red-400 group-hover:translate-x-0.5 transition-transform">
                   <span>Explore Capabilities</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Globe,
   Smartphone,
@@ -7,43 +7,81 @@ import {
   TrendingUp,
   GraduationCap,
   ArrowRight,
-  CheckCircle2,
-  Sparkles,
   Layers
 } from 'lucide-react';
 import { SERVICES_DATA } from '../data/content';
 import { ServiceItem } from '../types';
+import { ServiceArtwork, ServiceArtworkVariant } from './ServiceArtwork';
+
+const SERVICE_CARD_CONTENT: Record<string, { description: string; benefits: string[]; artwork: ServiceArtworkVariant }> = {
+  'website-development': {
+    description: 'Create modern, responsive websites and landing pages that showcase your brand, attract customers, and help grow your business.',
+    benefits: ['Business websites', 'Landing pages', 'Responsive design'],
+    artwork: 'website'
+  },
+  'app-development': {
+    description: 'Turn your ideas into practical digital experiences with user-friendly applications and custom business tools.',
+    benefits: ['Web applications', 'Business tools', 'Custom solutions'],
+    artwork: 'app'
+  },
+  'ai-solutions': {
+    description: 'Use AI tools to create content, improve productivity, streamline repetitive tasks, and develop valuable digital skills.',
+    benefits: ['AI tools and workflows', 'AI content creation', 'Practical training'],
+    artwork: 'ai'
+  },
+  'digital-content': {
+    description: 'Create engaging visual content, promotional videos, AI-powered creatives, and branded graphics for digital platforms.',
+    benefits: ['Short-form videos and reels', 'Promotional creatives', 'UGC-style advertisements'],
+    artwork: 'content'
+  }
+};
 
 interface ServicesSectionProps {
   onSelectService: (service: ServiceItem) => void;
-  selectedCategoryFilter?: string;
 }
 
-export const ServicesSection: React.FC<ServicesSectionProps> = ({
-  onSelectService,
-  selectedCategoryFilter = 'all'
-}) => {
-  const [filter, setFilter] = useState<string>(selectedCategoryFilter);
+export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
-  // Sync if parent passes changed category
-  React.useEffect(() => {
-    if (selectedCategoryFilter) {
-      setFilter(selectedCategoryFilter);
+  useEffect(() => {
+    const section = sectionRef.current;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!section || reduceMotion || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
     }
-  }, [selectedCategoryFilter]);
 
-  const filterTabs = [
-    { id: 'all', label: 'All Services (6)' },
-    { id: 'web-app', label: 'Web & Apps' },
-    { id: 'ai', label: 'AI Systems' },
-    { id: 'content', label: 'Creative Content' },
-    { id: 'growth', label: 'Growth Marketing' }
-  ];
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.disconnect();
+        window.removeEventListener('scroll', checkVisibility);
+        window.removeEventListener('resize', checkVisibility);
+      }
+    }, { threshold: 0.12 });
 
-  const filteredServices =
-    filter === 'all'
-      ? SERVICES_DATA
-      : SERVICES_DATA.filter((s) => s.category === filter);
+    const checkVisibility = () => {
+      const bounds = section.getBoundingClientRect();
+      if (bounds.top < window.innerHeight * 0.9 && bounds.bottom > 0) {
+        setIsVisible(true);
+        observer.disconnect();
+        window.removeEventListener('scroll', checkVisibility);
+        window.removeEventListener('resize', checkVisibility);
+      }
+    };
+
+    observer.observe(section);
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('resize', checkVisibility);
+    checkVisibility();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', checkVisibility);
+      window.removeEventListener('resize', checkVisibility);
+    };
+  }, []);
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -65,108 +103,72 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   };
 
   return (
-    <section id="services" className="w-full py-20 lg:py-28 px-6 lg:px-12 bg-[#f9f9ff]">
-      <div className="max-w-7xl mx-auto space-y-12">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200/80 pb-8">
-          <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e7deff] text-[#5d3bce] text-xs font-semibold tracking-wider uppercase">
-              OUR CAPABILITIES
+    <section id="services" ref={sectionRef} className={`services-section w-full bg-[#f7efef] px-6 py-20 text-[#111111] lg:px-12 lg:py-24 ${isVisible ? 'is-visible' : ''}`}>
+      <div className="mx-auto max-w-[1320px]">
+        <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="services-reveal space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full bg-red-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-500">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
+              Our Services
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#171c26] tracking-tight">
-              Everything you need to build a digital presence.
+            <h2 className="max-w-xl font-display text-3xl font-extrabold tracking-[-0.05em] text-[#111111] sm:text-4xl lg:text-[4rem]">
+              Everything you need <br /> to build and grow.
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-[#484554] max-w-md leading-relaxed">
-            From first idea to final launch, REDHOST combines technology, design, AI and digital creativity to forge undeniable leverage.
-          </p>
+
+          <div className="max-w-[520px]">
+            <p className="services-reveal text-base leading-relaxed text-[#4b4b4b]">
+              From websites and apps to AI-powered creativity and digital marketing, we provide practical digital solutions built to help you grow.
+            </p>
+          </div>
         </div>
 
-        {/* Interactive Segmented Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2 p-1.5 bg-[#f1f3ff] rounded-2xl w-fit border border-slate-200/70">
-          {filterTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilter(tab.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                filter === tab.id
-                  ? 'bg-white text-[#171c26] shadow-sm border border-slate-200/80'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Services Grid (3x2) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredServices.map((service) => {
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {SERVICES_DATA.map((service, index) => {
             const Icon = getIcon(service.icon);
-            const isAi = service.category === 'ai';
-            const isWeb = service.category === 'web-app';
-            const isContent = service.category === 'content';
-
-            const accentBadge = isAi
-              ? 'bg-[#cbbeff]/50 text-[#5d3bce]'
-              : isWeb
-              ? 'bg-[#e7deff] text-[#5d3bce]'
-              : isContent
-              ? 'bg-[#90f1ff]/60 text-[#006973]'
-              : 'bg-[#e4e0f4] text-[#171c26]';
+            const cardContent = SERVICE_CARD_CONTENT[service.id];
+            const artwork = cardContent?.artwork ?? (service.category === 'ai' ? 'ai' : service.category === 'content' || service.category === 'growth' ? 'content' : 'website');
+            const benefits = cardContent?.benefits ?? service.tags.slice(0, 3);
 
             return (
-              <div
+              <article
                 key={service.id}
-                className="group relative rounded-3xl bg-white p-8 shadow-xs border border-slate-200/80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 flex flex-col justify-between"
+                className="service-card services-reveal group flex h-full flex-col rounded-[22px] border border-black/[0.07] bg-[#f3f4e8] p-5 shadow-[0_16px_40px_-30px_rgba(35,35,22,0.28)] transition duration-300 hover:-translate-y-1.5 hover:border-[#f20d18]/25 hover:shadow-[0_24px_48px_-28px_rgba(35,35,22,0.32)] sm:p-6"
+                style={{ '--card-index': index } as React.CSSProperties}
               >
-                {/* Micro hover gradient top line */}
-                <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-[#7657e8] to-[#38c4d4] rounded-t-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                <div className="space-y-5">
-                  <div className="flex items-center justify-between">
-                    <div
-                      className={`w-12 h-12 rounded-2xl ${accentBadge} flex items-center justify-center transition-colors duration-300 group-hover:bg-[#5d3bce] group-hover:text-white`}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="font-mono text-xs text-slate-400 group-hover:text-[#5d3bce] transition-colors">
-                      {service.typicalTimeline}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display text-xl sm:text-2xl font-bold text-[#171c26] tracking-tight">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm text-[#484554] leading-relaxed">
-                    {service.shortDesc}
-                  </p>
-
-                  {/* Capabilities Tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {service.tags.map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 rounded-lg bg-[#f1f3ff] text-slate-700 text-xs font-medium"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                <div className="service-card__art mb-5 flex aspect-[1.62] items-center justify-center overflow-hidden rounded-[18px] bg-[radial-gradient(ellipse_at_50%_45%,#fffdf8_0%,#f7f5eb_66%,#eeeedf_100%)]">
+                  <ServiceArtwork variant={artwork} />
                 </div>
 
-                <div className="pt-6 border-t border-slate-100 mt-8 flex items-center justify-between">
-                  <button
-                    onClick={() => onSelectService(service)}
-                    type="button"
-                    className="text-xs font-bold text-[#5d3bce] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <span>Inspect Blueprint & Deliverables</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                <div className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#777777]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/85 text-[#F20D18] shadow-sm">
+                    <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
+                  {service.category === 'web-app' ? 'Digital products' : service.category === 'ai' ? 'Artificial intelligence' : service.category === 'content' ? 'Creative studio' : 'Digital growth'}
                 </div>
-              </div>
+
+                <h3 className="mb-2 font-display text-xl font-bold leading-tight text-[#171717] sm:text-[1.35rem]">{service.title}</h3>
+                <p className="mb-4 text-sm leading-relaxed text-[#62625D]">{cardContent?.description ?? service.shortDesc}</p>
+
+                <ul className="mb-5 space-y-2 text-[13px] text-[#34342F]">
+                  {benefits.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-[0.38rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[#F20D18]" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  type="button"
+                  onClick={() => onSelectService(service)}
+                  className="group/action mt-auto inline-flex min-h-11 w-fit items-center gap-2 rounded-full border border-[#171717]/10 bg-white/80 px-4 text-sm font-semibold text-[#171717] transition-colors hover:border-[#F20D18]/30 hover:text-[#F20D18] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F20D18] focus-visible:ring-offset-2"
+                  aria-label={`Explore ${service.title}`}
+                >
+                  Explore Service
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/action:translate-x-1" aria-hidden="true" />
+                </button>
+              </article>
             );
           })}
         </div>

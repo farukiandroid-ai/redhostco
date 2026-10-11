@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { CapabilitiesBar } from './components/CapabilitiesBar';
 import { ServicesSection } from './components/ServicesSection';
-import { ContentStudioSection } from './components/ContentStudioSection';
+import { ContentPortfolioSection } from './components/ContentPortfolioSection';
 import { ProcessSection } from './components/ProcessSection';
 import { WhyRedhostSection } from './components/WhyRedhostSection';
 import { AboutSection } from './components/AboutSection';
@@ -16,7 +15,6 @@ import { ServiceItem, CaseStudy } from './types';
 export default function App() {
   const [selectedServiceModal, setSelectedServiceModal] = useState<ServiceItem | null>(null);
   const [selectedCaseStudyModal, setSelectedCaseStudyModal] = useState<CaseStudy | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const [contactPreFill, setContactPreFill] = useState<{
     service?: string;
@@ -49,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f9ff] text-[#171c26] flex flex-col font-sans selection:bg-[#cbbeff] selection:text-[#1d0061]">
+    <div className="min-h-screen bg-[#f7f3f4] text-slate-900 flex flex-col font-sans selection:bg-[#ef4444]/30 selection:text-white">
       {/* Fixed Navigation */}
       <Navbar />
 
@@ -58,27 +56,20 @@ export default function App() {
         {/* Section 1: Hero */}
         <HeroSection />
 
-        {/* Section 2: Capabilities Bar */}
-        <CapabilitiesBar
-          onSelectCategory={(cat) => {
-            setSelectedCategory(cat);
-          }}
-        />
-
-        {/* Section 3: Services */}
+        {/* Services */}
         <ServicesSection
           onSelectService={(service) => setSelectedServiceModal(service)}
-          selectedCategoryFilter={selectedCategory}
         />
 
 
-        {/* Section 6: Creative Content Studio */}
-        <ContentStudioSection />
+        {/* Section 6: Content Portfolio */}
+        <ContentPortfolioSection />
 
-        {/* Section 7: Methodology & Process */}
+        {/* Section 7: Why REDHOST */}
+        <WhyRedhostSection />
+
+        {/* Section 8: Methodology & Process */}
         <ProcessSection />
-
-        
 
         {/* Section 9: About REDHOST */}
         <AboutSection />
